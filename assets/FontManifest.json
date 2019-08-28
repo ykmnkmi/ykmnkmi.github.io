@@ -1,0 +1,19 @@
+[
+  {
+    "family": "M PLUS Rounded 1C",
+    "fonts": [
+      {
+        "asset": "fonts/M_PLUS_Rounded_1C/Regular.ttf",
+        "weight": 400
+      },
+      {
+        "asset": "fonts/M_PLUS_Rounded_1C/Medium.ttf",
+        "weight": 500
+      },
+      {
+        "asset": "fonts/M_PLUS_Rounded_1C/Bold.ttf",
+        "weight": 700
+      }
+    ]
+  }
+]
