@@ -242,6 +242,7 @@
     }, WhereIterator: function WhereIterator(t0, t1) {
       this._iterator = t0;
       this._f = t1;
+    }, FixedLengthListMixin: function FixedLengthListMixin() {
     },
     unminifyOrTag: function(rawClassName) {
       var preserved = H.unmangleGlobalNameIfPreservedAnyways(rawClassName);
@@ -825,10 +826,6 @@
       var $arguments = H.substitute(target["$as" + H.S(substitutionName)], H.getRuntimeTypeInfo(target));
       return $arguments == null ? null : $arguments[index];
     },
-    getTypeArgumentByIndex: function(target, index) {
-      var rti = H.getRuntimeTypeInfo(target);
-      return rti == null ? null : rti[index];
-    },
     runtimeTypeToString: function(rti) {
       return H._runtimeTypeToString(rti, null);
     },
@@ -1144,6 +1141,20 @@
     initHooks_closure1: function initHooks_closure1(t0) {
       this.prototypeForTag = t0;
     },
+    _checkValidIndex: function(index, list, $length) {
+      if (index >>> 0 !== index || index >= $length)
+        throw H.wrapException(H.diagnoseIndexError(list, index));
+    },
+    NativeTypedData: function NativeTypedData() {
+    },
+    NativeTypedArray: function NativeTypedArray() {
+    },
+    NativeTypedArrayOfDouble: function NativeTypedArrayOfDouble() {
+    },
+    _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin: function _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin() {
+    },
+    _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin: function _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin() {
+    },
     extractKeys: function(victim) {
       return J.JSArray_JSArray$markFixed(victim ? Object.keys(victim) : [], null);
     },
@@ -1310,6 +1321,9 @@
     round$0$n: function(receiver) {
       return J.getInterceptor$n(receiver).round$0(receiver);
     },
+    toInt$0$n: function(receiver) {
+      return J.getInterceptor$n(receiver).toInt$0(receiver);
+    },
     toString$0$: function(receiver) {
       return J.getInterceptor$(receiver).toString$0(receiver);
     },
@@ -1336,9 +1350,9 @@
     ArrayIterator: function ArrayIterator(t0, t1) {
       var _ = this;
       _._iterable = t0;
-      _._length = t1;
+      _.__interceptors$_length = t1;
       _._index = 0;
-      _._current = null;
+      _.__interceptors$_current = null;
     },
     JSNumber: function JSNumber() {
     },
@@ -1840,7 +1854,7 @@
     },
     SelectElement: function SelectElement() {
     },
-    Window: function Window() {
+    Window0: function Window0() {
     },
     _EventStreamSubscription: function _EventStreamSubscription(t0, t1, t2, t3) {
       var _ = this;
@@ -1857,9 +1871,9 @@
     FixedSizeListIterator: function FixedSizeListIterator(t0, t1) {
       var _ = this;
       _._array = t0;
-      _._html$_length = t1;
+      _._length = t1;
       _._position = -1;
-      _._html$_current = null;
+      _._current = null;
     },
     _CssStyleDeclaration_Interceptor_CssStyleDeclarationBase: function _CssStyleDeclaration_Interceptor_CssStyleDeclarationBase() {
     },
@@ -1872,74 +1886,91 @@
     _NodeList_Interceptor_ListMixin_ImmutableListMixin: function _NodeList_Interceptor_ListMixin_ImmutableListMixin() {
     }
   },
-  O = {WebCanvas: function WebCanvas() {
-      this.context = null;
-    }, WebPicture: function WebPicture(t0) {
+  K = {
+    Window$: function() {
+      var t1 = new K.Window();
+      t1.Window$0({});
+      return t1;
+    },
+    Canvas: function Canvas() {
+      this._context = null;
+    },
+    Picture: function Picture(t0) {
       this.context = t0;
-    }, WebPictureRecorder: function WebPictureRecorder() {
+    },
+    PictureRecorder: function PictureRecorder() {
       this.cullRect = this.canvas = null;
       this.isRecording = false;
-    }},
-  N = {EngineLayer: function EngineLayer() {
-    }, Offset: function Offset() {
-    }, Rect: function Rect(t0, t1, t2, t3) {
+    },
+    SceneBuilder: function SceneBuilder() {
+      this.currentLayer = this.rootLayer = null;
+    },
+    Offset: function Offset() {
+    },
+    Rect: function Rect(t0, t1, t2, t3) {
       var _ = this;
       _.left = t0;
       _.top = t1;
       _.right = t2;
       _.bottom = t3;
-    }, Size: function Size(t0, t1) {
+    },
+    Size: function Size(t0, t1) {
       this.width = t0;
       this.height = t1;
-    }},
-  V = {WebSceneBuilder: function WebSceneBuilder(t0) {
-      this.layers = t0;
-    }, PictureEngineLayer: function PictureEngineLayer() {
-    }, WebPictureEngineLayer: function WebPictureEngineLayer(t0, t1) {
-      this.offset = t0;
-      this.picture = t1;
-    }, WebScene: function WebScene(t0) {
-      this.layers = t0;
-    }, Color: function Color(t0) {
-      this.value = t0;
-    }},
-  B = {
-    WebWindow$: function() {
-      var t1 = new B.WebWindow();
-      t1.WebWindow$0({});
-      return t1;
     },
-    WebWindow: function WebWindow() {
+    ContainerLayer: function ContainerLayer() {
+    },
+    Layer: function Layer() {
+    },
+    PictureLayer: function PictureLayer(t0, t1) {
+      this.picture = t0;
+      this.offset = t1;
+      this.parent = null;
+    },
+    TransformLayer: function TransformLayer(t0, t1) {
+      this.transform = t0;
+      this.layers = t1;
+      this.parent = null;
+    },
+    Color: function Color(t0) {
+      this.value = t0;
+    },
+    Window: function Window() {
       var _ = this;
       _.waitingForAnimation = false;
-      _.physicalSize = _.devicePixelRatio = _.windowInnerHeight = _.windowInnerWidth = _.context = _.canvas = _.onBeginFrame = null;
+      _.onBeginFrame = _.physicalSize = _.devicePixelRatio = _.windowHeight = _.windowWidth = _.context = _.canvas = null;
     },
-    WebWindow_closure: function WebWindow_closure(t0) {
+    Window_closure: function Window_closure(t0) {
       this.$this = t0;
     },
-    WebWindow_closure0: function WebWindow_closure0(t0) {
+    Window_closure0: function Window_closure0(t0) {
       this.$this = t0;
     },
-    WebWindow_closure1: function WebWindow_closure1() {
+    Window_closure1: function Window_closure1() {
     },
-    WebWindow_closure2: function WebWindow_closure2(t0, t1) {
+    Window_closure2: function Window_closure2(t0, t1) {
       this._box_0 = t0;
       this.$this = t1;
     },
-    WebWindow_scheduleFrame_closure: function WebWindow_scheduleFrame_closure(t0) {
+    Window_scheduleFrame_closure: function Window_scheduleFrame_closure(t0) {
       this.$this = t0;
     }
   },
+  T = {Matrix4: function Matrix4(t0) {
+      this._m4storage = t0;
+    }, Vector4: function Vector4(t0) {
+      this._v4storage = t0;
+    }},
   F = {
     beginFrame: function(timeStamp) {
-      var recorder, picture,
+      var recorder, picture, devicePixelRatio, deviceTransform, sceneBuilder, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17,
         t1 = $.$get$window(),
         t2 = t1.physicalSize,
         t3 = t1.devicePixelRatio,
         t4 = 0 + t2.width / t3;
       t3 = 0 + t2.height / t3;
-      recorder = new O.WebPictureRecorder();
-      recorder.cullRect = new N.Rect(0, 0, t4, t3);
+      recorder = new K.PictureRecorder();
+      recorder.cullRect = new K.Rect(0, 0, t4, t3);
       recorder.isRecording = true;
       t2 = t4 - 0;
       t4 = C.JSNumber_methods.round$0(t2);
@@ -1949,14 +1980,61 @@
       t4 = H.interceptedTypeCast(C.CanvasElement_methods.getContext$1(t4, "2d"), "$isCanvasRenderingContext2D");
       t4.translate(t2 / 2, t3 / 2);
       t4.rotate(3.141592653589793 * C.JSDouble_methods.$mod(timeStamp._duration / 1000 / 1800, 1));
-      t2 = new V.Color(4278255360).value;
+      t4.save();
+      t2 = new K.Color(4278255360).value;
       t4.fillStyle = "rgba(" + ((16711680 & t2) >>> 16) + ", " + ((65280 & t2) >>> 8) + ", " + ((255 & t2) >>> 0) + ", " + H.S(((4278190080 & t2) >>> 24) / 255) + ")";
       t4.fillRect(-100, -100, 200, 200);
+      t4.restore();
       picture = recorder.endRecording$0();
-      t4 = H.setRuntimeTypeInfo([], [N.EngineLayer]);
-      t4.push(new V.WebPictureEngineLayer(C.C_Offset, picture));
-      t2 = J.JSArray_JSArray$markFixed(t4.slice(0), H.getTypeArgumentByIndex(t4, 0));
-      t1.render$1(new V.WebScene(t2));
+      devicePixelRatio = t1.devicePixelRatio;
+      deviceTransform = new Float64Array(16);
+      deviceTransform[0] = devicePixelRatio;
+      deviceTransform[5] = devicePixelRatio;
+      deviceTransform[10] = 1;
+      deviceTransform[15] = 1;
+      sceneBuilder = new K.SceneBuilder();
+      t2 = new Float32Array(16);
+      t3 = deviceTransform[0];
+      t4 = deviceTransform[1];
+      t5 = deviceTransform[2];
+      t6 = deviceTransform[3];
+      t7 = deviceTransform[4];
+      t8 = deviceTransform[5];
+      t9 = deviceTransform[6];
+      t10 = deviceTransform[7];
+      t11 = deviceTransform[8];
+      t12 = deviceTransform[9];
+      t13 = deviceTransform[10];
+      t14 = deviceTransform[11];
+      t15 = deviceTransform[12];
+      t16 = deviceTransform[13];
+      t17 = deviceTransform[14];
+      t2[15] = deviceTransform[15];
+      t2[14] = t17;
+      t2[13] = t16;
+      t2[12] = t15;
+      t2[11] = t14;
+      t2[10] = t13;
+      t2[9] = t12;
+      t2[8] = t11;
+      t2[7] = t10;
+      t2[6] = t9;
+      t2[5] = t8;
+      t2[4] = t7;
+      t2[3] = t6;
+      t2[2] = t5;
+      t2[1] = t4;
+      t2[0] = t3;
+      sceneBuilder.pushLayer$1(new K.TransformLayer(new T.Matrix4(t2), H.setRuntimeTypeInfo([], [K.Layer])));
+      t2 = sceneBuilder.currentLayer;
+      t3 = new K.PictureLayer(picture, C.C_Offset);
+      t2.toString;
+      t3.parent = t2;
+      t2.layers.push(t3);
+      sceneBuilder.pop$0();
+      t3 = sceneBuilder.rootLayer;
+      t1.context.clearRect(0, 0, t1.windowWidth, t1.windowHeight);
+      t3.paint$1(t1.context);
       t1.scheduleFrame$0();
     },
     main: function() {
@@ -1965,7 +2043,7 @@
       t1.scheduleFrame$0();
     }
   };
-  var holders = [C, H, J, P, W, O, N, V, B, F];
+  var holders = [C, H, J, P, W, K, T, F];
   hunkHelpers.setFunctionNamesIfNecessary(holders);
   var $ = {};
   H.JS_CONST.prototype = {};
@@ -2024,25 +2102,35 @@
   J.JSUnmodifiableArray.prototype = {};
   J.ArrayIterator.prototype = {
     get$current: function() {
-      return this._current;
+      return this.__interceptors$_current;
     },
     moveNext$0: function() {
       var t2, _this = this,
         t1 = _this._iterable,
         $length = t1.length;
-      if (_this._length !== $length)
+      if (_this.__interceptors$_length !== $length)
         throw H.wrapException(H.throwConcurrentModificationError(t1));
       t2 = _this._index;
       if (t2 >= $length) {
-        _this._current = null;
+        _this.__interceptors$_current = null;
         return false;
       }
-      _this._current = t1[t2];
+      _this.__interceptors$_current = t1[t2];
       _this._index = t2 + 1;
       return true;
     }
   };
   J.JSNumber.prototype = {
+    toInt$0: function(receiver) {
+      var t1;
+      if (receiver >= -2147483648 && receiver <= 2147483647)
+        return receiver | 0;
+      if (isFinite(receiver)) {
+        t1 = receiver < 0 ? Math.ceil(receiver) : Math.floor(receiver);
+        return t1 + 0;
+      }
+      throw H.wrapException(P.UnsupportedError$("" + receiver + ".toInt()"));
+    },
     round$0: function(receiver) {
       if (receiver > 0) {
         if (receiver !== 1 / 0)
@@ -2201,6 +2289,7 @@
       return this._iterator.get$current();
     }
   };
+  H.FixedLengthListMixin.prototype = {};
   H.TypeErrorDecoder.prototype = {
     matchTypeError$1: function(message) {
       var result, t1, _this = this,
@@ -2329,6 +2418,26 @@
       return this.prototypeForTag(tag);
     }
   };
+  H.NativeTypedData.prototype = {};
+  H.NativeTypedArray.prototype = {
+    get$length: function(receiver) {
+      return receiver.length;
+    },
+    $isJavaScriptIndexingBehavior: 1,
+    $asJavaScriptIndexingBehavior: function() {
+    }
+  };
+  H.NativeTypedArrayOfDouble.prototype = {
+    $index: function(receiver, index) {
+      H._checkValidIndex(index, receiver, receiver.length);
+      return receiver[index];
+    },
+    $asListMixin: function() {
+      return [P.double];
+    }
+  };
+  H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin.prototype = {};
+  H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin.prototype = {};
   P._AsyncRun__initializeScheduleImmediate_internalCallback.prototype = {
     call$1: function(_) {
       var t1 = this._box_0,
@@ -2496,7 +2605,7 @@
         t1 = _this.name,
         nameString = t1 != null ? " (" + t1 + ")" : "";
       t1 = _this.message;
-      message = t1 == null ? "" : ": " + t1;
+      message = t1 == null ? "" : ": " + H.S(t1);
       prefix = _this.get$_errorName() + nameString + message;
       if (!_this._hasValue)
         return prefix;
@@ -2799,7 +2908,7 @@
       return receiver.length;
     }
   };
-  W.Window.prototype = {
+  W.Window0.prototype = {
     _requestAnimationFrame$1: function(receiver, callback) {
       return receiver.requestAnimationFrame(H.convertDartClosureToJS(callback, 1));
     },
@@ -2840,18 +2949,18 @@
     moveNext$0: function() {
       var _this = this,
         nextPosition = _this._position + 1,
-        t1 = _this._html$_length;
+        t1 = _this._length;
       if (nextPosition < t1) {
-        _this._html$_current = J.$index$asx(_this._array, nextPosition);
+        _this._current = J.$index$asx(_this._array, nextPosition);
         _this._position = nextPosition;
         return true;
       }
-      _this._html$_current = null;
+      _this._current = null;
       _this._position = t1;
       return false;
     },
     get$current: function() {
-      return this._html$_current;
+      return this._current;
     }
   };
   W._CssStyleDeclaration_Interceptor_CssStyleDeclarationBase.prototype = {};
@@ -2896,28 +3005,67 @@
       return new P.FilteredElementList(new W._ChildNodeListLazy(receiver));
     }
   };
-  O.WebCanvas.prototype = {};
-  O.WebPicture.prototype = {};
-  O.WebPictureRecorder.prototype = {
+  K.Canvas.prototype = {};
+  K.Picture.prototype = {};
+  K.PictureRecorder.prototype = {
     endRecording$0: function() {
       if (!this.isRecording)
         return;
       this.isRecording = false;
       var t1 = this.canvas;
-      return new O.WebPicture(H.interceptedTypeCast((t1 && C.CanvasElement_methods).getContext$1(t1, "2d"), "$isCanvasRenderingContext2D"));
+      return new K.Picture(H.interceptedTypeCast((t1 && C.CanvasElement_methods).getContext$1(t1, "2d"), "$isCanvasRenderingContext2D"));
     }
   };
-  N.EngineLayer.prototype = {};
-  V.WebSceneBuilder.prototype = {};
-  V.PictureEngineLayer.prototype = {};
-  V.WebPictureEngineLayer.prototype = {};
-  V.WebScene.prototype = {};
-  N.Offset.prototype = {};
-  N.Rect.prototype = {};
-  N.Size.prototype = {};
-  V.Color.prototype = {};
-  B.WebWindow.prototype = {
-    WebWindow$0: function(_box_0) {
+  K.SceneBuilder.prototype = {
+    pop$0: function() {
+      var t1 = this.currentLayer;
+      if (t1 == null)
+        return;
+      this.currentLayer = t1.parent;
+    },
+    pushLayer$1: function(layer) {
+      var t1, _this = this;
+      if (_this.rootLayer == null) {
+        _this.rootLayer = _this.currentLayer = layer;
+        return;
+      }
+      t1 = _this.currentLayer;
+      if (t1 == null)
+        return;
+      layer.parent = t1;
+      t1.layers.push(layer);
+      _this.currentLayer = layer;
+    }
+  };
+  K.Offset.prototype = {};
+  K.Rect.prototype = {};
+  K.Size.prototype = {};
+  K.ContainerLayer.prototype = {
+    paintChildren$1: function(context) {
+      var t1, t2, _i;
+      for (t1 = this.layers, t2 = t1.length, _i = 0; _i < t1.length; t1.length === t2 || (0, H.throwConcurrentModificationError)(t1), ++_i)
+        t1[_i].paint$1(context);
+    }
+  };
+  K.Layer.prototype = {};
+  K.PictureLayer.prototype = {
+    paint$1: function(context) {
+      context.drawImage(this.picture.context.canvas, 0, 0);
+    }
+  };
+  K.TransformLayer.prototype = {
+    paint$1: function(context) {
+      var t1;
+      context.save();
+      t1 = this.transform._m4storage;
+      context.transform(t1[0], t1[4], t1[1], t1[5], t1[3], t1[6]);
+      this.paintChildren$1(context);
+      context.restore();
+    }
+  };
+  K.Color.prototype = {};
+  K.Window.prototype = {
+    Window$0: function(_box_0) {
       var t2, t3, _this = this, _s3_ = "0px",
         t1 = document;
       t1.body.spellcheck = false;
@@ -2935,7 +3083,7 @@
       t2.font = "16px monospace";
       t2.color = "red";
       _box_0.init = null;
-      (window.visualViewport != null ? _box_0.init = new B.WebWindow_closure(_this) : _box_0.init = new B.WebWindow_closure0(_this)).call$0();
+      (window.visualViewport != null ? _box_0.init = new K.Window_closure(_this) : _box_0.init = new K.Window_closure0(_this)).call$0();
       t2 = t1.body;
       t3 = t2.clientWidth;
       t3 = W.CanvasElement_CanvasElement(t2.clientHeight, t3);
@@ -2945,32 +3093,21 @@
       t3.width = "100%";
       t3.height = "100%";
       t2 = t1.body;
-      new W._ChildrenElementList(t2, t2.children)._filter$2(0, new B.WebWindow_closure1(), false);
+      new W._ChildrenElementList(t2, t2.children)._filter$2(0, new K.Window_closure1(), false);
       t1.body.appendChild(_this.canvas);
       _this.context = _this.canvas.getContext("2d");
-      W._EventStreamSubscription$(window, "resize", new B.WebWindow_closure2(_box_0, _this), false);
-    },
-    render$1: function(scene) {
-      var _i, layer,
-        t1 = this.context,
-        t2 = this.canvas;
-      t1.clearRect(0, 0, t2.width, t2.height);
-      for (t1 = scene.layers, t2 = t1.length, _i = 0; _i < t1.length; t1.length === t2 || (0, H.throwConcurrentModificationError)(t1), ++_i) {
-        layer = t1[_i];
-        if (layer instanceof V.WebPictureEngineLayer)
-          this.context.drawImage(layer.picture.context.canvas, 0, 0);
-      }
+      W._EventStreamSubscription$(window, "resize", new K.Window_closure2(_box_0, _this), false);
     },
     scheduleFrame$0: function() {
       if (!this.waitingForAnimation) {
         this.waitingForAnimation = true;
         var t1 = window;
         C.Window_methods._ensureRequestAnimationFrame$0(t1);
-        C.Window_methods._requestAnimationFrame$1(t1, W._wrapZone(new B.WebWindow_scheduleFrame_closure(this), P.num));
+        C.Window_methods._requestAnimationFrame$1(t1, W._wrapZone(new K.Window_scheduleFrame_closure(this), P.num));
       }
     }
   };
-  B.WebWindow_closure.prototype = {
+  K.Window_closure.prototype = {
     call$0: function() {
       var t1, t2, t3, t4,
         ratio = window.devicePixelRatio;
@@ -2981,15 +3118,15 @@
       t3 = window.visualViewport.width;
       t3.toString;
       t3 *= t2;
-      t1.windowInnerWidth = t3;
+      t1.windowWidth = t3;
       t4 = window.visualViewport.height;
       t4.toString;
       t2 = t4 * t2;
-      t1.windowInnerHeight = t2;
-      t1.physicalSize = new N.Size(t3, t2);
+      t1.windowHeight = t2;
+      t1.physicalSize = new K.Size(t3, t2);
     }
   };
-  B.WebWindow_closure0.prototype = {
+  K.Window_closure0.prototype = {
     call$0: function() {
       var t1, t2, t3,
         ratio = window.devicePixelRatio;
@@ -2998,35 +3135,64 @@
       t2 = ratio === 0 ? 1 : ratio;
       t1.devicePixelRatio = t2;
       t3 = window.innerWidth * t2;
-      t1.windowInnerWidth = t3;
+      t1.windowWidth = t3;
       t2 = window.innerHeight * t2;
-      t1.windowInnerHeight = t2;
-      t1.physicalSize = new N.Size(t3, t2);
+      t1.windowHeight = t2;
+      t1.physicalSize = new K.Size(t3, t2);
     }
   };
-  B.WebWindow_closure1.prototype = {
+  K.Window_closure1.prototype = {
     call$1: function(element) {
       return !J.getInterceptor$(element).$isScriptElement;
     }
   };
-  B.WebWindow_closure2.prototype = {
+  K.Window_closure2.prototype = {
     call$1: function($event) {
       var t1, t2;
       this._box_0.init.call$0();
       t1 = this.$this;
       t2 = t1.canvas;
-      t2.width = J.round$0$n(t1.windowInnerWidth);
-      t2.height = J.round$0$n(t1.windowInnerHeight);
+      t2.width = J.round$0$n(t1.windowWidth);
+      t2.height = J.round$0$n(t1.windowHeight);
     }
   };
-  B.WebWindow_scheduleFrame_closure.prototype = {
+  K.Window_scheduleFrame_closure.prototype = {
     call$1: function(highResTime) {
       var t2,
         t1 = this.$this;
       t1.waitingForAnimation = false;
-      t2 = J.round$0$n(highResTime);
+      t2 = J.toInt$0$n(highResTime);
       if (t1.onBeginFrame != null)
         $.$get$window().onBeginFrame.call$1(new P.Duration(1000 * t2));
+    }
+  };
+  T.Matrix4.prototype = {
+    toString$0: function(_) {
+      var _this = this;
+      return "[0] " + _this.getRow$1(0).toString$0(0) + "\n[1] " + _this.getRow$1(1).toString$0(0) + "\n[2] " + _this.getRow$1(2).toString$0(0) + "\n[3] " + _this.getRow$1(3).toString$0(0) + "\n";
+    },
+    getRow$1: function(row) {
+      var t1 = new Float32Array(4),
+        t2 = this._m4storage;
+      t1[0] = t2[row];
+      t1[1] = t2[4 + row];
+      t1[2] = t2[8 + row];
+      t1[3] = t2[12 + row];
+      return new T.Vector4(t1);
+    }
+  };
+  T.Vector4.prototype = {
+    toString$0: function(_) {
+      var t1 = this._v4storage;
+      return H.S(t1[0]) + "," + H.S(t1[1]) + "," + H.S(t1[2]) + "," + H.S(t1[3]);
+    },
+    get$length: function(_) {
+      var t1 = this._v4storage,
+        t2 = t1[0],
+        t3 = t1[1],
+        t4 = t1[2];
+      t1 = t1[3];
+      return Math.sqrt(t2 * t2 + t3 * t3 + t4 * t4 + t1 * t1);
     }
   };
   (function aliases() {
@@ -3049,21 +3215,25 @@
       _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(P.Object, null);
-    _inheritMany(P.Object, [H.JS_CONST, J.Interceptor, J.ArrayIterator, H.ListIterator, P.Iterable, P.Iterator, H.TypeErrorDecoder, P.Error, H.Closure, H._StackTrace, P._TimerImpl, P._AsyncCallbackEntry, P.StreamSubscription, P._Zone, P._ListBase_Object_ListMixin, P.ListMixin, P.bool, P.num, P.Duration, P.StackOverflowError, P._Exception, P.List, P.Null, P.String, P.StringBuffer, W.CssStyleDeclarationBase, W.ImmutableListMixin, W.FixedSizeListIterator, O.WebCanvas, O.WebPicture, O.WebPictureRecorder, N.EngineLayer, V.WebSceneBuilder, V.WebScene, N.Offset, N.Rect, N.Size, V.Color, B.WebWindow]);
-    _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JSArray, J.JSNumber, J.JSString, W.EventTarget, W.CanvasRenderingContext2D, W._CssStyleDeclaration_Interceptor_CssStyleDeclarationBase, W.DomException, W.Event, W._HtmlCollection_Interceptor_ListMixin, W._NodeList_Interceptor_ListMixin]);
+    _inheritMany(P.Object, [H.JS_CONST, J.Interceptor, J.ArrayIterator, H.ListIterator, P.Iterable, P.Iterator, H.FixedLengthListMixin, H.TypeErrorDecoder, P.Error, H.Closure, H._StackTrace, P._TimerImpl, P._AsyncCallbackEntry, P.StreamSubscription, P._Zone, P._ListBase_Object_ListMixin, P.ListMixin, P.bool, P.num, P.Duration, P.StackOverflowError, P._Exception, P.List, P.Null, P.String, P.StringBuffer, W.CssStyleDeclarationBase, W.ImmutableListMixin, W.FixedSizeListIterator, K.Canvas, K.Picture, K.PictureRecorder, K.SceneBuilder, K.Offset, K.Rect, K.Size, K.Layer, K.Color, K.Window, T.Matrix4, T.Vector4]);
+    _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JSArray, J.JSNumber, J.JSString, H.NativeTypedData, W.EventTarget, W.CanvasRenderingContext2D, W._CssStyleDeclaration_Interceptor_CssStyleDeclarationBase, W.DomException, W.Event, W._HtmlCollection_Interceptor_ListMixin, W._NodeList_Interceptor_ListMixin]);
     _inheritMany(J.JavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
     _inherit(J.JSUnmodifiableArray, J.JSArray);
     _inheritMany(J.JSNumber, [J.JSInt, J.JSDouble]);
     _inheritMany(P.Iterable, [H.MappedIterable, H.WhereIterable]);
     _inheritMany(P.Iterator, [H.MappedIterator, H.WhereIterator]);
     _inheritMany(P.Error, [H.NullError, H.JsNoSuchMethodError, H.UnknownJsTypeError, H.CastErrorImplementation, H.RuntimeError, P.NullThrownError, P.ArgumentError, P.UnsupportedError, P.UnimplementedError, P.ConcurrentModificationError, P.CyclicInitializationError]);
-    _inheritMany(H.Closure, [H.unwrapException_saveStackTrace, H.TearOffClosure, H.initHooks_closure, H.initHooks_closure0, H.initHooks_closure1, P._AsyncRun__initializeScheduleImmediate_internalCallback, P._AsyncRun__initializeScheduleImmediate_closure, P._AsyncRun__scheduleImmediateJsOverride_internalCallback, P._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, P._TimerImpl_internalCallback, P._rootHandleUncaughtError_closure, P._RootZone_bindUnaryCallbackGuarded_closure, P.Duration_toString_sixDigits, P.Duration_toString_twoDigits, W._EventStreamSubscription_closure, P.FilteredElementList__iterable_closure, P.FilteredElementList__iterable_closure0, B.WebWindow_closure, B.WebWindow_closure0, B.WebWindow_closure1, B.WebWindow_closure2, B.WebWindow_scheduleFrame_closure]);
+    _inheritMany(H.Closure, [H.unwrapException_saveStackTrace, H.TearOffClosure, H.initHooks_closure, H.initHooks_closure0, H.initHooks_closure1, P._AsyncRun__initializeScheduleImmediate_internalCallback, P._AsyncRun__initializeScheduleImmediate_closure, P._AsyncRun__scheduleImmediateJsOverride_internalCallback, P._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, P._TimerImpl_internalCallback, P._rootHandleUncaughtError_closure, P._RootZone_bindUnaryCallbackGuarded_closure, P.Duration_toString_sixDigits, P.Duration_toString_twoDigits, W._EventStreamSubscription_closure, P.FilteredElementList__iterable_closure, P.FilteredElementList__iterable_closure0, K.Window_closure, K.Window_closure0, K.Window_closure1, K.Window_closure2, K.Window_scheduleFrame_closure]);
     _inheritMany(H.TearOffClosure, [H.StaticClosure, H.BoundClosure]);
+    _inherit(H.NativeTypedArray, H.NativeTypedData);
+    _inherit(H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin, H.NativeTypedArray);
+    _inherit(H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin, H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin);
+    _inherit(H.NativeTypedArrayOfDouble, H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin);
     _inherit(P._RootZone, P._Zone);
     _inherit(P.ListBase, P._ListBase_Object_ListMixin);
     _inheritMany(P.num, [P.double, P.int]);
     _inheritMany(P.ArgumentError, [P.RangeError, P.IndexError]);
-    _inheritMany(W.EventTarget, [W.Node, W.Window]);
+    _inheritMany(W.EventTarget, [W.Node, W.Window0]);
     _inheritMany(W.Node, [W.Element, W.CharacterData]);
     _inheritMany(W.Element, [W.HtmlElement, P.SvgElement]);
     _inheritMany(W.HtmlElement, [W.AnchorElement, W.AreaElement, W.CanvasElement, W.FormElement, W.ScriptElement, W.SelectElement]);
@@ -3074,8 +3244,10 @@
     _inherit(W._NodeList_Interceptor_ListMixin_ImmutableListMixin, W._NodeList_Interceptor_ListMixin);
     _inherit(W.NodeList, W._NodeList_Interceptor_ListMixin_ImmutableListMixin);
     _inherit(W._EventStreamSubscription, P.StreamSubscription);
-    _inherit(V.PictureEngineLayer, N.EngineLayer);
-    _inherit(V.WebPictureEngineLayer, V.PictureEngineLayer);
+    _inheritMany(K.Layer, [K.ContainerLayer, K.PictureLayer]);
+    _inherit(K.TransformLayer, K.ContainerLayer);
+    _mixin(H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin, P.ListMixin);
+    _mixin(H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin, H.FixedLengthListMixin);
     _mixin(P._ListBase_Object_ListMixin, P.ListMixin);
     _mixin(W._CssStyleDeclaration_Interceptor_CssStyleDeclarationBase, W.CssStyleDeclarationBase);
     _mixin(W._HtmlCollection_Interceptor_ListMixin, P.ListMixin);
@@ -3096,7 +3268,7 @@
     C.JavaScriptFunction_methods = J.JavaScriptFunction.prototype;
     C.PlainJavaScriptObject_methods = J.PlainJavaScriptObject.prototype;
     C.UnknownJavaScriptObject_methods = J.UnknownJavaScriptObject.prototype;
-    C.Window_methods = W.Window.prototype;
+    C.Window_methods = W.Window0.prototype;
     C.C_JS_CONST = function getTagFallback(o) {
   var s = Object.prototype.toString.call(o);
   return s.substring(8, s.length - 1);
@@ -3217,7 +3389,7 @@
 };
     C.C_JS_CONST3 = function(hooks) { return hooks; }
 ;
-    C.C_Offset = new N.Offset();
+    C.C_Offset = new K.Offset();
     C.C__RootZone = new P._RootZone();
   })();
   (function staticFields() {
@@ -3320,7 +3492,7 @@
       return {};
     });
     _lazy($, "window", "$get$window", function() {
-      return B.WebWindow$();
+      return K.Window$();
     });
   })();
   (function nativeSupport() {
@@ -3346,8 +3518,12 @@
       }
       init.dispatchPropertyName = init.getIsolateTag("dispatch_record");
     }();
-    hunkHelpers.setOrUpdateInterceptorsByTag({CanvasGradient: J.Interceptor, CanvasPattern: J.Interceptor, DOMError: J.Interceptor, MediaError: J.Interceptor, Navigator: J.Interceptor, NavigatorConcurrentHardware: J.Interceptor, NavigatorUserMediaError: J.Interceptor, OverconstrainedError: J.Interceptor, PositionError: J.Interceptor, WebGLRenderingContext: J.Interceptor, WebGL2RenderingContext: J.Interceptor, SQLError: J.Interceptor, HTMLAudioElement: W.HtmlElement, HTMLBRElement: W.HtmlElement, HTMLBaseElement: W.HtmlElement, HTMLBodyElement: W.HtmlElement, HTMLButtonElement: W.HtmlElement, HTMLContentElement: W.HtmlElement, HTMLDListElement: W.HtmlElement, HTMLDataElement: W.HtmlElement, HTMLDataListElement: W.HtmlElement, HTMLDetailsElement: W.HtmlElement, HTMLDialogElement: W.HtmlElement, HTMLDivElement: W.HtmlElement, HTMLEmbedElement: W.HtmlElement, HTMLFieldSetElement: W.HtmlElement, HTMLHRElement: W.HtmlElement, HTMLHeadElement: W.HtmlElement, HTMLHeadingElement: W.HtmlElement, HTMLHtmlElement: W.HtmlElement, HTMLIFrameElement: W.HtmlElement, HTMLImageElement: W.HtmlElement, HTMLInputElement: W.HtmlElement, HTMLLIElement: W.HtmlElement, HTMLLabelElement: W.HtmlElement, HTMLLegendElement: W.HtmlElement, HTMLLinkElement: W.HtmlElement, HTMLMapElement: W.HtmlElement, HTMLMediaElement: W.HtmlElement, HTMLMenuElement: W.HtmlElement, HTMLMetaElement: W.HtmlElement, HTMLMeterElement: W.HtmlElement, HTMLModElement: W.HtmlElement, HTMLOListElement: W.HtmlElement, HTMLObjectElement: W.HtmlElement, HTMLOptGroupElement: W.HtmlElement, HTMLOptionElement: W.HtmlElement, HTMLOutputElement: W.HtmlElement, HTMLParagraphElement: W.HtmlElement, HTMLParamElement: W.HtmlElement, HTMLPictureElement: W.HtmlElement, HTMLPreElement: W.HtmlElement, HTMLProgressElement: W.HtmlElement, HTMLQuoteElement: W.HtmlElement, HTMLShadowElement: W.HtmlElement, HTMLSlotElement: W.HtmlElement, HTMLSourceElement: W.HtmlElement, HTMLSpanElement: W.HtmlElement, HTMLStyleElement: W.HtmlElement, HTMLTableCaptionElement: W.HtmlElement, HTMLTableCellElement: W.HtmlElement, HTMLTableDataCellElement: W.HtmlElement, HTMLTableHeaderCellElement: W.HtmlElement, HTMLTableColElement: W.HtmlElement, HTMLTableElement: W.HtmlElement, HTMLTableRowElement: W.HtmlElement, HTMLTableSectionElement: W.HtmlElement, HTMLTemplateElement: W.HtmlElement, HTMLTextAreaElement: W.HtmlElement, HTMLTimeElement: W.HtmlElement, HTMLTitleElement: W.HtmlElement, HTMLTrackElement: W.HtmlElement, HTMLUListElement: W.HtmlElement, HTMLUnknownElement: W.HtmlElement, HTMLVideoElement: W.HtmlElement, HTMLDirectoryElement: W.HtmlElement, HTMLFontElement: W.HtmlElement, HTMLFrameElement: W.HtmlElement, HTMLFrameSetElement: W.HtmlElement, HTMLMarqueeElement: W.HtmlElement, HTMLElement: W.HtmlElement, HTMLAnchorElement: W.AnchorElement, HTMLAreaElement: W.AreaElement, HTMLCanvasElement: W.CanvasElement, CanvasRenderingContext2D: W.CanvasRenderingContext2D, CDATASection: W.CharacterData, CharacterData: W.CharacterData, Comment: W.CharacterData, ProcessingInstruction: W.CharacterData, Text: W.CharacterData, CSSStyleDeclaration: W.CssStyleDeclaration, MSStyleCSSProperties: W.CssStyleDeclaration, CSS2Properties: W.CssStyleDeclaration, DOMException: W.DomException, Element: W.Element, AbortPaymentEvent: W.Event, AnimationEvent: W.Event, AnimationPlaybackEvent: W.Event, ApplicationCacheErrorEvent: W.Event, BackgroundFetchClickEvent: W.Event, BackgroundFetchEvent: W.Event, BackgroundFetchFailEvent: W.Event, BackgroundFetchedEvent: W.Event, BeforeInstallPromptEvent: W.Event, BeforeUnloadEvent: W.Event, BlobEvent: W.Event, CanMakePaymentEvent: W.Event, ClipboardEvent: W.Event, CloseEvent: W.Event, CompositionEvent: W.Event, CustomEvent: W.Event, DeviceMotionEvent: W.Event, DeviceOrientationEvent: W.Event, ErrorEvent: W.Event, Event: W.Event, InputEvent: W.Event, ExtendableEvent: W.Event, ExtendableMessageEvent: W.Event, FetchEvent: W.Event, FocusEvent: W.Event, FontFaceSetLoadEvent: W.Event, ForeignFetchEvent: W.Event, GamepadEvent: W.Event, HashChangeEvent: W.Event, InstallEvent: W.Event, KeyboardEvent: W.Event, MediaEncryptedEvent: W.Event, MediaKeyMessageEvent: W.Event, MediaQueryListEvent: W.Event, MediaStreamEvent: W.Event, MediaStreamTrackEvent: W.Event, MessageEvent: W.Event, MIDIConnectionEvent: W.Event, MIDIMessageEvent: W.Event, MouseEvent: W.Event, DragEvent: W.Event, MutationEvent: W.Event, NotificationEvent: W.Event, PageTransitionEvent: W.Event, PaymentRequestEvent: W.Event, PaymentRequestUpdateEvent: W.Event, PointerEvent: W.Event, PopStateEvent: W.Event, PresentationConnectionAvailableEvent: W.Event, PresentationConnectionCloseEvent: W.Event, ProgressEvent: W.Event, PromiseRejectionEvent: W.Event, PushEvent: W.Event, RTCDataChannelEvent: W.Event, RTCDTMFToneChangeEvent: W.Event, RTCPeerConnectionIceEvent: W.Event, RTCTrackEvent: W.Event, SecurityPolicyViolationEvent: W.Event, SensorErrorEvent: W.Event, SpeechRecognitionError: W.Event, SpeechRecognitionEvent: W.Event, SpeechSynthesisEvent: W.Event, StorageEvent: W.Event, SyncEvent: W.Event, TextEvent: W.Event, TouchEvent: W.Event, TrackEvent: W.Event, TransitionEvent: W.Event, WebKitTransitionEvent: W.Event, UIEvent: W.Event, VRDeviceEvent: W.Event, VRDisplayEvent: W.Event, VRSessionEvent: W.Event, WheelEvent: W.Event, MojoInterfaceRequestEvent: W.Event, ResourceProgressEvent: W.Event, USBConnectionEvent: W.Event, IDBVersionChangeEvent: W.Event, AudioProcessingEvent: W.Event, OfflineAudioCompletionEvent: W.Event, WebGLContextEvent: W.Event, VisualViewport: W.EventTarget, EventTarget: W.EventTarget, HTMLFormElement: W.FormElement, HTMLCollection: W.HtmlCollection, HTMLFormControlsCollection: W.HtmlCollection, HTMLOptionsCollection: W.HtmlCollection, Document: W.Node, DocumentFragment: W.Node, HTMLDocument: W.Node, ShadowRoot: W.Node, XMLDocument: W.Node, Attr: W.Node, DocumentType: W.Node, Node: W.Node, NodeList: W.NodeList, RadioNodeList: W.NodeList, HTMLScriptElement: W.ScriptElement, HTMLSelectElement: W.SelectElement, Window: W.Window, DOMWindow: W.Window, SVGAElement: P.SvgElement, SVGAnimateElement: P.SvgElement, SVGAnimateMotionElement: P.SvgElement, SVGAnimateTransformElement: P.SvgElement, SVGAnimationElement: P.SvgElement, SVGCircleElement: P.SvgElement, SVGClipPathElement: P.SvgElement, SVGDefsElement: P.SvgElement, SVGDescElement: P.SvgElement, SVGDiscardElement: P.SvgElement, SVGEllipseElement: P.SvgElement, SVGFEBlendElement: P.SvgElement, SVGFEColorMatrixElement: P.SvgElement, SVGFEComponentTransferElement: P.SvgElement, SVGFECompositeElement: P.SvgElement, SVGFEConvolveMatrixElement: P.SvgElement, SVGFEDiffuseLightingElement: P.SvgElement, SVGFEDisplacementMapElement: P.SvgElement, SVGFEDistantLightElement: P.SvgElement, SVGFEFloodElement: P.SvgElement, SVGFEFuncAElement: P.SvgElement, SVGFEFuncBElement: P.SvgElement, SVGFEFuncGElement: P.SvgElement, SVGFEFuncRElement: P.SvgElement, SVGFEGaussianBlurElement: P.SvgElement, SVGFEImageElement: P.SvgElement, SVGFEMergeElement: P.SvgElement, SVGFEMergeNodeElement: P.SvgElement, SVGFEMorphologyElement: P.SvgElement, SVGFEOffsetElement: P.SvgElement, SVGFEPointLightElement: P.SvgElement, SVGFESpecularLightingElement: P.SvgElement, SVGFESpotLightElement: P.SvgElement, SVGFETileElement: P.SvgElement, SVGFETurbulenceElement: P.SvgElement, SVGFilterElement: P.SvgElement, SVGForeignObjectElement: P.SvgElement, SVGGElement: P.SvgElement, SVGGeometryElement: P.SvgElement, SVGGraphicsElement: P.SvgElement, SVGImageElement: P.SvgElement, SVGLineElement: P.SvgElement, SVGLinearGradientElement: P.SvgElement, SVGMarkerElement: P.SvgElement, SVGMaskElement: P.SvgElement, SVGMetadataElement: P.SvgElement, SVGPathElement: P.SvgElement, SVGPatternElement: P.SvgElement, SVGPolygonElement: P.SvgElement, SVGPolylineElement: P.SvgElement, SVGRadialGradientElement: P.SvgElement, SVGRectElement: P.SvgElement, SVGScriptElement: P.SvgElement, SVGSetElement: P.SvgElement, SVGStopElement: P.SvgElement, SVGStyleElement: P.SvgElement, SVGElement: P.SvgElement, SVGSVGElement: P.SvgElement, SVGSwitchElement: P.SvgElement, SVGSymbolElement: P.SvgElement, SVGTSpanElement: P.SvgElement, SVGTextContentElement: P.SvgElement, SVGTextElement: P.SvgElement, SVGTextPathElement: P.SvgElement, SVGTextPositioningElement: P.SvgElement, SVGTitleElement: P.SvgElement, SVGUseElement: P.SvgElement, SVGViewElement: P.SvgElement, SVGGradientElement: P.SvgElement, SVGComponentTransferFunctionElement: P.SvgElement, SVGFEDropShadowElement: P.SvgElement, SVGMPathElement: P.SvgElement});
-    hunkHelpers.setOrUpdateLeafTags({CanvasGradient: true, CanvasPattern: true, DOMError: true, MediaError: true, Navigator: true, NavigatorConcurrentHardware: true, NavigatorUserMediaError: true, OverconstrainedError: true, PositionError: true, WebGLRenderingContext: true, WebGL2RenderingContext: true, SQLError: true, HTMLAudioElement: true, HTMLBRElement: true, HTMLBaseElement: true, HTMLBodyElement: true, HTMLButtonElement: true, HTMLContentElement: true, HTMLDListElement: true, HTMLDataElement: true, HTMLDataListElement: true, HTMLDetailsElement: true, HTMLDialogElement: true, HTMLDivElement: true, HTMLEmbedElement: true, HTMLFieldSetElement: true, HTMLHRElement: true, HTMLHeadElement: true, HTMLHeadingElement: true, HTMLHtmlElement: true, HTMLIFrameElement: true, HTMLImageElement: true, HTMLInputElement: true, HTMLLIElement: true, HTMLLabelElement: true, HTMLLegendElement: true, HTMLLinkElement: true, HTMLMapElement: true, HTMLMediaElement: true, HTMLMenuElement: true, HTMLMetaElement: true, HTMLMeterElement: true, HTMLModElement: true, HTMLOListElement: true, HTMLObjectElement: true, HTMLOptGroupElement: true, HTMLOptionElement: true, HTMLOutputElement: true, HTMLParagraphElement: true, HTMLParamElement: true, HTMLPictureElement: true, HTMLPreElement: true, HTMLProgressElement: true, HTMLQuoteElement: true, HTMLShadowElement: true, HTMLSlotElement: true, HTMLSourceElement: true, HTMLSpanElement: true, HTMLStyleElement: true, HTMLTableCaptionElement: true, HTMLTableCellElement: true, HTMLTableDataCellElement: true, HTMLTableHeaderCellElement: true, HTMLTableColElement: true, HTMLTableElement: true, HTMLTableRowElement: true, HTMLTableSectionElement: true, HTMLTemplateElement: true, HTMLTextAreaElement: true, HTMLTimeElement: true, HTMLTitleElement: true, HTMLTrackElement: true, HTMLUListElement: true, HTMLUnknownElement: true, HTMLVideoElement: true, HTMLDirectoryElement: true, HTMLFontElement: true, HTMLFrameElement: true, HTMLFrameSetElement: true, HTMLMarqueeElement: true, HTMLElement: false, HTMLAnchorElement: true, HTMLAreaElement: true, HTMLCanvasElement: true, CanvasRenderingContext2D: true, CDATASection: true, CharacterData: true, Comment: true, ProcessingInstruction: true, Text: true, CSSStyleDeclaration: true, MSStyleCSSProperties: true, CSS2Properties: true, DOMException: true, Element: false, AbortPaymentEvent: true, AnimationEvent: true, AnimationPlaybackEvent: true, ApplicationCacheErrorEvent: true, BackgroundFetchClickEvent: true, BackgroundFetchEvent: true, BackgroundFetchFailEvent: true, BackgroundFetchedEvent: true, BeforeInstallPromptEvent: true, BeforeUnloadEvent: true, BlobEvent: true, CanMakePaymentEvent: true, ClipboardEvent: true, CloseEvent: true, CompositionEvent: true, CustomEvent: true, DeviceMotionEvent: true, DeviceOrientationEvent: true, ErrorEvent: true, Event: true, InputEvent: true, ExtendableEvent: true, ExtendableMessageEvent: true, FetchEvent: true, FocusEvent: true, FontFaceSetLoadEvent: true, ForeignFetchEvent: true, GamepadEvent: true, HashChangeEvent: true, InstallEvent: true, KeyboardEvent: true, MediaEncryptedEvent: true, MediaKeyMessageEvent: true, MediaQueryListEvent: true, MediaStreamEvent: true, MediaStreamTrackEvent: true, MessageEvent: true, MIDIConnectionEvent: true, MIDIMessageEvent: true, MouseEvent: true, DragEvent: true, MutationEvent: true, NotificationEvent: true, PageTransitionEvent: true, PaymentRequestEvent: true, PaymentRequestUpdateEvent: true, PointerEvent: true, PopStateEvent: true, PresentationConnectionAvailableEvent: true, PresentationConnectionCloseEvent: true, ProgressEvent: true, PromiseRejectionEvent: true, PushEvent: true, RTCDataChannelEvent: true, RTCDTMFToneChangeEvent: true, RTCPeerConnectionIceEvent: true, RTCTrackEvent: true, SecurityPolicyViolationEvent: true, SensorErrorEvent: true, SpeechRecognitionError: true, SpeechRecognitionEvent: true, SpeechSynthesisEvent: true, StorageEvent: true, SyncEvent: true, TextEvent: true, TouchEvent: true, TrackEvent: true, TransitionEvent: true, WebKitTransitionEvent: true, UIEvent: true, VRDeviceEvent: true, VRDisplayEvent: true, VRSessionEvent: true, WheelEvent: true, MojoInterfaceRequestEvent: true, ResourceProgressEvent: true, USBConnectionEvent: true, IDBVersionChangeEvent: true, AudioProcessingEvent: true, OfflineAudioCompletionEvent: true, WebGLContextEvent: true, VisualViewport: true, EventTarget: false, HTMLFormElement: true, HTMLCollection: true, HTMLFormControlsCollection: true, HTMLOptionsCollection: true, Document: true, DocumentFragment: true, HTMLDocument: true, ShadowRoot: true, XMLDocument: true, Attr: true, DocumentType: true, Node: false, NodeList: true, RadioNodeList: true, HTMLScriptElement: true, HTMLSelectElement: true, Window: true, DOMWindow: true, SVGAElement: true, SVGAnimateElement: true, SVGAnimateMotionElement: true, SVGAnimateTransformElement: true, SVGAnimationElement: true, SVGCircleElement: true, SVGClipPathElement: true, SVGDefsElement: true, SVGDescElement: true, SVGDiscardElement: true, SVGEllipseElement: true, SVGFEBlendElement: true, SVGFEColorMatrixElement: true, SVGFEComponentTransferElement: true, SVGFECompositeElement: true, SVGFEConvolveMatrixElement: true, SVGFEDiffuseLightingElement: true, SVGFEDisplacementMapElement: true, SVGFEDistantLightElement: true, SVGFEFloodElement: true, SVGFEFuncAElement: true, SVGFEFuncBElement: true, SVGFEFuncGElement: true, SVGFEFuncRElement: true, SVGFEGaussianBlurElement: true, SVGFEImageElement: true, SVGFEMergeElement: true, SVGFEMergeNodeElement: true, SVGFEMorphologyElement: true, SVGFEOffsetElement: true, SVGFEPointLightElement: true, SVGFESpecularLightingElement: true, SVGFESpotLightElement: true, SVGFETileElement: true, SVGFETurbulenceElement: true, SVGFilterElement: true, SVGForeignObjectElement: true, SVGGElement: true, SVGGeometryElement: true, SVGGraphicsElement: true, SVGImageElement: true, SVGLineElement: true, SVGLinearGradientElement: true, SVGMarkerElement: true, SVGMaskElement: true, SVGMetadataElement: true, SVGPathElement: true, SVGPatternElement: true, SVGPolygonElement: true, SVGPolylineElement: true, SVGRadialGradientElement: true, SVGRectElement: true, SVGScriptElement: true, SVGSetElement: true, SVGStopElement: true, SVGStyleElement: true, SVGElement: true, SVGSVGElement: true, SVGSwitchElement: true, SVGSymbolElement: true, SVGTSpanElement: true, SVGTextContentElement: true, SVGTextElement: true, SVGTextPathElement: true, SVGTextPositioningElement: true, SVGTitleElement: true, SVGUseElement: true, SVGViewElement: true, SVGGradientElement: true, SVGComponentTransferFunctionElement: true, SVGFEDropShadowElement: true, SVGMPathElement: true});
+    hunkHelpers.setOrUpdateInterceptorsByTag({CanvasGradient: J.Interceptor, CanvasPattern: J.Interceptor, DOMError: J.Interceptor, MediaError: J.Interceptor, Navigator: J.Interceptor, NavigatorConcurrentHardware: J.Interceptor, NavigatorUserMediaError: J.Interceptor, OverconstrainedError: J.Interceptor, PositionError: J.Interceptor, WebGLRenderingContext: J.Interceptor, WebGL2RenderingContext: J.Interceptor, SQLError: J.Interceptor, ArrayBufferView: H.NativeTypedData, Float32Array: H.NativeTypedArrayOfDouble, Float64Array: H.NativeTypedArrayOfDouble, HTMLAudioElement: W.HtmlElement, HTMLBRElement: W.HtmlElement, HTMLBaseElement: W.HtmlElement, HTMLBodyElement: W.HtmlElement, HTMLButtonElement: W.HtmlElement, HTMLContentElement: W.HtmlElement, HTMLDListElement: W.HtmlElement, HTMLDataElement: W.HtmlElement, HTMLDataListElement: W.HtmlElement, HTMLDetailsElement: W.HtmlElement, HTMLDialogElement: W.HtmlElement, HTMLDivElement: W.HtmlElement, HTMLEmbedElement: W.HtmlElement, HTMLFieldSetElement: W.HtmlElement, HTMLHRElement: W.HtmlElement, HTMLHeadElement: W.HtmlElement, HTMLHeadingElement: W.HtmlElement, HTMLHtmlElement: W.HtmlElement, HTMLIFrameElement: W.HtmlElement, HTMLImageElement: W.HtmlElement, HTMLInputElement: W.HtmlElement, HTMLLIElement: W.HtmlElement, HTMLLabelElement: W.HtmlElement, HTMLLegendElement: W.HtmlElement, HTMLLinkElement: W.HtmlElement, HTMLMapElement: W.HtmlElement, HTMLMediaElement: W.HtmlElement, HTMLMenuElement: W.HtmlElement, HTMLMetaElement: W.HtmlElement, HTMLMeterElement: W.HtmlElement, HTMLModElement: W.HtmlElement, HTMLOListElement: W.HtmlElement, HTMLObjectElement: W.HtmlElement, HTMLOptGroupElement: W.HtmlElement, HTMLOptionElement: W.HtmlElement, HTMLOutputElement: W.HtmlElement, HTMLParagraphElement: W.HtmlElement, HTMLParamElement: W.HtmlElement, HTMLPictureElement: W.HtmlElement, HTMLPreElement: W.HtmlElement, HTMLProgressElement: W.HtmlElement, HTMLQuoteElement: W.HtmlElement, HTMLShadowElement: W.HtmlElement, HTMLSlotElement: W.HtmlElement, HTMLSourceElement: W.HtmlElement, HTMLSpanElement: W.HtmlElement, HTMLStyleElement: W.HtmlElement, HTMLTableCaptionElement: W.HtmlElement, HTMLTableCellElement: W.HtmlElement, HTMLTableDataCellElement: W.HtmlElement, HTMLTableHeaderCellElement: W.HtmlElement, HTMLTableColElement: W.HtmlElement, HTMLTableElement: W.HtmlElement, HTMLTableRowElement: W.HtmlElement, HTMLTableSectionElement: W.HtmlElement, HTMLTemplateElement: W.HtmlElement, HTMLTextAreaElement: W.HtmlElement, HTMLTimeElement: W.HtmlElement, HTMLTitleElement: W.HtmlElement, HTMLTrackElement: W.HtmlElement, HTMLUListElement: W.HtmlElement, HTMLUnknownElement: W.HtmlElement, HTMLVideoElement: W.HtmlElement, HTMLDirectoryElement: W.HtmlElement, HTMLFontElement: W.HtmlElement, HTMLFrameElement: W.HtmlElement, HTMLFrameSetElement: W.HtmlElement, HTMLMarqueeElement: W.HtmlElement, HTMLElement: W.HtmlElement, HTMLAnchorElement: W.AnchorElement, HTMLAreaElement: W.AreaElement, HTMLCanvasElement: W.CanvasElement, CanvasRenderingContext2D: W.CanvasRenderingContext2D, CDATASection: W.CharacterData, CharacterData: W.CharacterData, Comment: W.CharacterData, ProcessingInstruction: W.CharacterData, Text: W.CharacterData, CSSStyleDeclaration: W.CssStyleDeclaration, MSStyleCSSProperties: W.CssStyleDeclaration, CSS2Properties: W.CssStyleDeclaration, DOMException: W.DomException, Element: W.Element, AbortPaymentEvent: W.Event, AnimationEvent: W.Event, AnimationPlaybackEvent: W.Event, ApplicationCacheErrorEvent: W.Event, BackgroundFetchClickEvent: W.Event, BackgroundFetchEvent: W.Event, BackgroundFetchFailEvent: W.Event, BackgroundFetchedEvent: W.Event, BeforeInstallPromptEvent: W.Event, BeforeUnloadEvent: W.Event, BlobEvent: W.Event, CanMakePaymentEvent: W.Event, ClipboardEvent: W.Event, CloseEvent: W.Event, CompositionEvent: W.Event, CustomEvent: W.Event, DeviceMotionEvent: W.Event, DeviceOrientationEvent: W.Event, ErrorEvent: W.Event, Event: W.Event, InputEvent: W.Event, ExtendableEvent: W.Event, ExtendableMessageEvent: W.Event, FetchEvent: W.Event, FocusEvent: W.Event, FontFaceSetLoadEvent: W.Event, ForeignFetchEvent: W.Event, GamepadEvent: W.Event, HashChangeEvent: W.Event, InstallEvent: W.Event, KeyboardEvent: W.Event, MediaEncryptedEvent: W.Event, MediaKeyMessageEvent: W.Event, MediaQueryListEvent: W.Event, MediaStreamEvent: W.Event, MediaStreamTrackEvent: W.Event, MessageEvent: W.Event, MIDIConnectionEvent: W.Event, MIDIMessageEvent: W.Event, MouseEvent: W.Event, DragEvent: W.Event, MutationEvent: W.Event, NotificationEvent: W.Event, PageTransitionEvent: W.Event, PaymentRequestEvent: W.Event, PaymentRequestUpdateEvent: W.Event, PointerEvent: W.Event, PopStateEvent: W.Event, PresentationConnectionAvailableEvent: W.Event, PresentationConnectionCloseEvent: W.Event, ProgressEvent: W.Event, PromiseRejectionEvent: W.Event, PushEvent: W.Event, RTCDataChannelEvent: W.Event, RTCDTMFToneChangeEvent: W.Event, RTCPeerConnectionIceEvent: W.Event, RTCTrackEvent: W.Event, SecurityPolicyViolationEvent: W.Event, SensorErrorEvent: W.Event, SpeechRecognitionError: W.Event, SpeechRecognitionEvent: W.Event, SpeechSynthesisEvent: W.Event, StorageEvent: W.Event, SyncEvent: W.Event, TextEvent: W.Event, TouchEvent: W.Event, TrackEvent: W.Event, TransitionEvent: W.Event, WebKitTransitionEvent: W.Event, UIEvent: W.Event, VRDeviceEvent: W.Event, VRDisplayEvent: W.Event, VRSessionEvent: W.Event, WheelEvent: W.Event, MojoInterfaceRequestEvent: W.Event, ResourceProgressEvent: W.Event, USBConnectionEvent: W.Event, IDBVersionChangeEvent: W.Event, AudioProcessingEvent: W.Event, OfflineAudioCompletionEvent: W.Event, WebGLContextEvent: W.Event, VisualViewport: W.EventTarget, EventTarget: W.EventTarget, HTMLFormElement: W.FormElement, HTMLCollection: W.HtmlCollection, HTMLFormControlsCollection: W.HtmlCollection, HTMLOptionsCollection: W.HtmlCollection, Document: W.Node, DocumentFragment: W.Node, HTMLDocument: W.Node, ShadowRoot: W.Node, XMLDocument: W.Node, Attr: W.Node, DocumentType: W.Node, Node: W.Node, NodeList: W.NodeList, RadioNodeList: W.NodeList, HTMLScriptElement: W.ScriptElement, HTMLSelectElement: W.SelectElement, Window: W.Window0, DOMWindow: W.Window0, SVGAElement: P.SvgElement, SVGAnimateElement: P.SvgElement, SVGAnimateMotionElement: P.SvgElement, SVGAnimateTransformElement: P.SvgElement, SVGAnimationElement: P.SvgElement, SVGCircleElement: P.SvgElement, SVGClipPathElement: P.SvgElement, SVGDefsElement: P.SvgElement, SVGDescElement: P.SvgElement, SVGDiscardElement: P.SvgElement, SVGEllipseElement: P.SvgElement, SVGFEBlendElement: P.SvgElement, SVGFEColorMatrixElement: P.SvgElement, SVGFEComponentTransferElement: P.SvgElement, SVGFECompositeElement: P.SvgElement, SVGFEConvolveMatrixElement: P.SvgElement, SVGFEDiffuseLightingElement: P.SvgElement, SVGFEDisplacementMapElement: P.SvgElement, SVGFEDistantLightElement: P.SvgElement, SVGFEFloodElement: P.SvgElement, SVGFEFuncAElement: P.SvgElement, SVGFEFuncBElement: P.SvgElement, SVGFEFuncGElement: P.SvgElement, SVGFEFuncRElement: P.SvgElement, SVGFEGaussianBlurElement: P.SvgElement, SVGFEImageElement: P.SvgElement, SVGFEMergeElement: P.SvgElement, SVGFEMergeNodeElement: P.SvgElement, SVGFEMorphologyElement: P.SvgElement, SVGFEOffsetElement: P.SvgElement, SVGFEPointLightElement: P.SvgElement, SVGFESpecularLightingElement: P.SvgElement, SVGFESpotLightElement: P.SvgElement, SVGFETileElement: P.SvgElement, SVGFETurbulenceElement: P.SvgElement, SVGFilterElement: P.SvgElement, SVGForeignObjectElement: P.SvgElement, SVGGElement: P.SvgElement, SVGGeometryElement: P.SvgElement, SVGGraphicsElement: P.SvgElement, SVGImageElement: P.SvgElement, SVGLineElement: P.SvgElement, SVGLinearGradientElement: P.SvgElement, SVGMarkerElement: P.SvgElement, SVGMaskElement: P.SvgElement, SVGMetadataElement: P.SvgElement, SVGPathElement: P.SvgElement, SVGPatternElement: P.SvgElement, SVGPolygonElement: P.SvgElement, SVGPolylineElement: P.SvgElement, SVGRadialGradientElement: P.SvgElement, SVGRectElement: P.SvgElement, SVGScriptElement: P.SvgElement, SVGSetElement: P.SvgElement, SVGStopElement: P.SvgElement, SVGStyleElement: P.SvgElement, SVGElement: P.SvgElement, SVGSVGElement: P.SvgElement, SVGSwitchElement: P.SvgElement, SVGSymbolElement: P.SvgElement, SVGTSpanElement: P.SvgElement, SVGTextContentElement: P.SvgElement, SVGTextElement: P.SvgElement, SVGTextPathElement: P.SvgElement, SVGTextPositioningElement: P.SvgElement, SVGTitleElement: P.SvgElement, SVGUseElement: P.SvgElement, SVGViewElement: P.SvgElement, SVGGradientElement: P.SvgElement, SVGComponentTransferFunctionElement: P.SvgElement, SVGFEDropShadowElement: P.SvgElement, SVGMPathElement: P.SvgElement});
+    hunkHelpers.setOrUpdateLeafTags({CanvasGradient: true, CanvasPattern: true, DOMError: true, MediaError: true, Navigator: true, NavigatorConcurrentHardware: true, NavigatorUserMediaError: true, OverconstrainedError: true, PositionError: true, WebGLRenderingContext: true, WebGL2RenderingContext: true, SQLError: true, ArrayBufferView: false, Float32Array: true, Float64Array: true, HTMLAudioElement: true, HTMLBRElement: true, HTMLBaseElement: true, HTMLBodyElement: true, HTMLButtonElement: true, HTMLContentElement: true, HTMLDListElement: true, HTMLDataElement: true, HTMLDataListElement: true, HTMLDetailsElement: true, HTMLDialogElement: true, HTMLDivElement: true, HTMLEmbedElement: true, HTMLFieldSetElement: true, HTMLHRElement: true, HTMLHeadElement: true, HTMLHeadingElement: true, HTMLHtmlElement: true, HTMLIFrameElement: true, HTMLImageElement: true, HTMLInputElement: true, HTMLLIElement: true, HTMLLabelElement: true, HTMLLegendElement: true, HTMLLinkElement: true, HTMLMapElement: true, HTMLMediaElement: true, HTMLMenuElement: true, HTMLMetaElement: true, HTMLMeterElement: true, HTMLModElement: true, HTMLOListElement: true, HTMLObjectElement: true, HTMLOptGroupElement: true, HTMLOptionElement: true, HTMLOutputElement: true, HTMLParagraphElement: true, HTMLParamElement: true, HTMLPictureElement: true, HTMLPreElement: true, HTMLProgressElement: true, HTMLQuoteElement: true, HTMLShadowElement: true, HTMLSlotElement: true, HTMLSourceElement: true, HTMLSpanElement: true, HTMLStyleElement: true, HTMLTableCaptionElement: true, HTMLTableCellElement: true, HTMLTableDataCellElement: true, HTMLTableHeaderCellElement: true, HTMLTableColElement: true, HTMLTableElement: true, HTMLTableRowElement: true, HTMLTableSectionElement: true, HTMLTemplateElement: true, HTMLTextAreaElement: true, HTMLTimeElement: true, HTMLTitleElement: true, HTMLTrackElement: true, HTMLUListElement: true, HTMLUnknownElement: true, HTMLVideoElement: true, HTMLDirectoryElement: true, HTMLFontElement: true, HTMLFrameElement: true, HTMLFrameSetElement: true, HTMLMarqueeElement: true, HTMLElement: false, HTMLAnchorElement: true, HTMLAreaElement: true, HTMLCanvasElement: true, CanvasRenderingContext2D: true, CDATASection: true, CharacterData: true, Comment: true, ProcessingInstruction: true, Text: true, CSSStyleDeclaration: true, MSStyleCSSProperties: true, CSS2Properties: true, DOMException: true, Element: false, AbortPaymentEvent: true, AnimationEvent: true, AnimationPlaybackEvent: true, ApplicationCacheErrorEvent: true, BackgroundFetchClickEvent: true, BackgroundFetchEvent: true, BackgroundFetchFailEvent: true, BackgroundFetchedEvent: true, BeforeInstallPromptEvent: true, BeforeUnloadEvent: true, BlobEvent: true, CanMakePaymentEvent: true, ClipboardEvent: true, CloseEvent: true, CompositionEvent: true, CustomEvent: true, DeviceMotionEvent: true, DeviceOrientationEvent: true, ErrorEvent: true, Event: true, InputEvent: true, ExtendableEvent: true, ExtendableMessageEvent: true, FetchEvent: true, FocusEvent: true, FontFaceSetLoadEvent: true, ForeignFetchEvent: true, GamepadEvent: true, HashChangeEvent: true, InstallEvent: true, KeyboardEvent: true, MediaEncryptedEvent: true, MediaKeyMessageEvent: true, MediaQueryListEvent: true, MediaStreamEvent: true, MediaStreamTrackEvent: true, MessageEvent: true, MIDIConnectionEvent: true, MIDIMessageEvent: true, MouseEvent: true, DragEvent: true, MutationEvent: true, NotificationEvent: true, PageTransitionEvent: true, PaymentRequestEvent: true, PaymentRequestUpdateEvent: true, PointerEvent: true, PopStateEvent: true, PresentationConnectionAvailableEvent: true, PresentationConnectionCloseEvent: true, ProgressEvent: true, PromiseRejectionEvent: true, PushEvent: true, RTCDataChannelEvent: true, RTCDTMFToneChangeEvent: true, RTCPeerConnectionIceEvent: true, RTCTrackEvent: true, SecurityPolicyViolationEvent: true, SensorErrorEvent: true, SpeechRecognitionError: true, SpeechRecognitionEvent: true, SpeechSynthesisEvent: true, StorageEvent: true, SyncEvent: true, TextEvent: true, TouchEvent: true, TrackEvent: true, TransitionEvent: true, WebKitTransitionEvent: true, UIEvent: true, VRDeviceEvent: true, VRDisplayEvent: true, VRSessionEvent: true, WheelEvent: true, MojoInterfaceRequestEvent: true, ResourceProgressEvent: true, USBConnectionEvent: true, IDBVersionChangeEvent: true, AudioProcessingEvent: true, OfflineAudioCompletionEvent: true, WebGLContextEvent: true, VisualViewport: true, EventTarget: false, HTMLFormElement: true, HTMLCollection: true, HTMLFormControlsCollection: true, HTMLOptionsCollection: true, Document: true, DocumentFragment: true, HTMLDocument: true, ShadowRoot: true, XMLDocument: true, Attr: true, DocumentType: true, Node: false, NodeList: true, RadioNodeList: true, HTMLScriptElement: true, HTMLSelectElement: true, Window: true, DOMWindow: true, SVGAElement: true, SVGAnimateElement: true, SVGAnimateMotionElement: true, SVGAnimateTransformElement: true, SVGAnimationElement: true, SVGCircleElement: true, SVGClipPathElement: true, SVGDefsElement: true, SVGDescElement: true, SVGDiscardElement: true, SVGEllipseElement: true, SVGFEBlendElement: true, SVGFEColorMatrixElement: true, SVGFEComponentTransferElement: true, SVGFECompositeElement: true, SVGFEConvolveMatrixElement: true, SVGFEDiffuseLightingElement: true, SVGFEDisplacementMapElement: true, SVGFEDistantLightElement: true, SVGFEFloodElement: true, SVGFEFuncAElement: true, SVGFEFuncBElement: true, SVGFEFuncGElement: true, SVGFEFuncRElement: true, SVGFEGaussianBlurElement: true, SVGFEImageElement: true, SVGFEMergeElement: true, SVGFEMergeNodeElement: true, SVGFEMorphologyElement: true, SVGFEOffsetElement: true, SVGFEPointLightElement: true, SVGFESpecularLightingElement: true, SVGFESpotLightElement: true, SVGFETileElement: true, SVGFETurbulenceElement: true, SVGFilterElement: true, SVGForeignObjectElement: true, SVGGElement: true, SVGGeometryElement: true, SVGGraphicsElement: true, SVGImageElement: true, SVGLineElement: true, SVGLinearGradientElement: true, SVGMarkerElement: true, SVGMaskElement: true, SVGMetadataElement: true, SVGPathElement: true, SVGPatternElement: true, SVGPolygonElement: true, SVGPolylineElement: true, SVGRadialGradientElement: true, SVGRectElement: true, SVGScriptElement: true, SVGSetElement: true, SVGStopElement: true, SVGStyleElement: true, SVGElement: true, SVGSVGElement: true, SVGSwitchElement: true, SVGSymbolElement: true, SVGTSpanElement: true, SVGTextContentElement: true, SVGTextElement: true, SVGTextPathElement: true, SVGTextPositioningElement: true, SVGTitleElement: true, SVGUseElement: true, SVGViewElement: true, SVGGradientElement: true, SVGComponentTransferFunctionElement: true, SVGFEDropShadowElement: true, SVGMPathElement: true});
+    H.NativeTypedArray.$nativeSuperclassTag = "ArrayBufferView";
+    H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin.$nativeSuperclassTag = "ArrayBufferView";
+    H._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin.$nativeSuperclassTag = "ArrayBufferView";
+    H.NativeTypedArrayOfDouble.$nativeSuperclassTag = "ArrayBufferView";
   })();
   convertAllToFastObject(holders);
   convertToFastObject($);
