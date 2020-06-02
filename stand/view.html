@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'>
+		<meta name='viewport' content='width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'>
+		<title>model view</title>
+		<style>
+      body {
+        margin: 0px;
+        overflow: hidden;
+      }
+
+			#glFullscreen {
+				height: 100vh;
+				min-height: 360px;
+				min-width: 640px;
+				overflow: hidden;
+				position: relative;
+				width: 100%;
+				z-index: 0;
+			}
+      
+      #app {
+				height: 100%;
+				left: 0;
+				top: 0;
+				width: 100%;
+			}
+    </style>
+	</head>
+
+	<body>
+		<div id='glFullscreen'>
+			<canvas id='app'></canvas>
+		</div>
+    
+    <script type='module'>
+			'use strict';
+
+      import * as THREE from './jsm/three.module.js';
+
+      import { TrackballControls } from './jsm/controls/TrackballControls.js';
+
+      // import { MTLLoader } from './jsm/loaders/MTLLoader.js';
+      // import { OBJLoader2 } from './jsm/loaders/OBJLoader2.js';
+      // import { MtlObjBridge } from './jsm/loaders/obj2/bridge/MtlObjBridge.js';
+
+      import { FBXLoader } from './jsm/loaders/FBXLoader.js';
+
+      const main = function () {
+        let hash = window.location.hash;
+
+        if (hash && hash.length > 1) {
+          let file = hash.substring(1);
+
+          const App = function ( elementToBindTo ) {
+            this.renderer = null;
+            this.canvas = elementToBindTo;
+            this.aspectRatio = 1.0;
+            this.recalcAspectRatio();
+
+            this.scene = null;
+            this.cameraDefaults = {
+              posCamera: new THREE.Vector3( -500.0, 600.0, 2000.0 ),
+              posCameraTarget: new THREE.Vector3( 0.0, 0.0, 0.0 ),
+              near: 0.1,
+              far: 10000.0,
+              fov: 45.0
+            };
+            this.camera = null;
+            this.cameraTarget = this.cameraDefaults.posCameraTarget;
+
+            this.controls = null;
+          };
+
+          App.prototype = {
+
+            constructor: App,
+
+            initGL: function () {
+              this.renderer = new THREE.WebGLRenderer( {
+                canvas: this.canvas,
+                antialias: true,
+                autoClear: true
+              } );
+              
+              this.renderer.setClearColor( 0xffffff );
+
+              this.scene = new THREE.Scene();
+
+              this.camera = new THREE.PerspectiveCamera( this.cameraDefaults.fov, this.aspectRatio, this.cameraDefaults.near, this.cameraDefaults.far );
+              this.resetCamera();
+              this.controls = new TrackballControls( this.camera, this.renderer.domElement );
+
+              let ambientLight = new THREE.AmbientLight( 0x404040 );
+              let directionalLight1 = new THREE.DirectionalLight( 0xC0C0C0 );
+              let directionalLight2 = new THREE.DirectionalLight( 0xC0C0C0 );
+
+              directionalLight1.position.set( -100.0, -50.0, 100.0 );
+              directionalLight2.position.set( 100.0, 50.0, -100.0 );
+
+              this.scene.add( directionalLight1 );
+              this.scene.add( directionalLight2 );
+              this.scene.add( ambientLight );
+            },
+
+            initContent: function () {
+              let modelName = file;
+              
+              let scope = this;
+              let callbackOnLoad = function ( model ) {
+                model.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.material.side = THREE.DoubleSide
+                    }
+                } );
+
+                scope.scene.add( model );
+              };
+
+              const loader = new FBXLoader();
+              loader.load( `models/${file}.fbx`, callbackOnLoad );
+                
+              // let objLoader2 = new OBJLoader2();
+              // let onLoadMtl = function ( mtlParseResult ) {
+              //   objLoader2.setModelName( modelName );
+              //   objLoader2.setLogging( true, true );
+              //   objLoader2.addMaterials( MtlObjBridge.addMaterialsFromMtlLoader( mtlParseResult ), true );
+              //   objLoader2.load( `models/${file}.obj`, callbackOnLoad );
+              // };
+              
+              // let mtlLoader = new MTLLoader();
+              // mtlLoader.load( `models/${file}.mtl`, onLoadMtl );
+            },
+
+            resizeDisplayGL: function () {
+              this.controls.handleResize();
+
+              this.recalcAspectRatio();
+              this.renderer.setSize( this.canvas.offsetWidth, this.canvas.offsetHeight, false );
+
+              this.updateCamera();
+            },
+
+            recalcAspectRatio: function () {
+              this.aspectRatio = (this.canvas.offsetHeight === 0.0) ? 1.0 : this.canvas.offsetWidth / this.canvas.offsetHeight;
+            },
+
+            resetCamera: function () {
+              this.camera.position.copy( this.cameraDefaults.posCamera );
+              this.cameraTarget.copy( this.cameraDefaults.posCameraTarget );
+
+              this.updateCamera();
+            },
+
+            updateCamera: function () {
+              this.camera.aspect = this.aspectRatio;
+              this.camera.lookAt( this.cameraTarget );
+              this.camera.updateProjectionMatrix();
+            },
+
+            render: function () {
+              if ( !this.renderer.autoClear ) this.renderer.clear();
+              this.controls.update();
+              this.renderer.render( this.scene, this.camera );
+            }
+          };
+
+          let app = new App( document.getElementById( 'app' ) );
+
+          let resizeWindow = function () {
+            app.resizeDisplayGL();
+          };
+
+          let render = function () {
+            requestAnimationFrame( render );
+            app.render();
+          };
+
+          window.addEventListener( 'resize', resizeWindow, false );
+
+          app.initGL();
+          app.resizeDisplayGL();
+          app.initContent();
+
+          render();
+        }};
+
+        window.addEventListener('hashchange', () => { main(); }, false);
+        
+        main();
+		</script>
+	</body>
+</html>
