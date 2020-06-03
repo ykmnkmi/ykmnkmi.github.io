@@ -5252,7 +5252,7 @@ N.D.prototype={}
 F.jk.prototype={
 $1:function(a){var t
 if(J.ll(a)){t=window.navigator.serviceWorker
-P.jR(t.register("sw.js",null),u.U)}}};(function aliases(){var t=J.a.prototype
+P.jR(t.register("sw.js?v=0",null),u.U)}}};(function aliases(){var t=J.a.prototype
 t.cd=t.j
 t.cc=t.ap
 t=J.t.prototype
