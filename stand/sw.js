@@ -21,6 +21,14 @@ const RESOURCES = [
   'images/47_01.jpg',
   'images/48_02.jpg',
   'images/49_01.jpg',
+  'images/icons/icon-128x128.png',
+  'images/icons/icon-144x144.png',
+  'images/icons/icon-152x152.png',
+  'images/icons/icon-192x192.png',
+  'images/icons/icon-384x384.png',
+  'images/icons/icon-512x512.png',
+  'images/icons/icon-72x72.png',
+  'images/icons/icon-96x96.png',
   'index.html',
   'jsm/controls/TrackballControls.js',
   'jsm/curves/NURBSCurve.js',
@@ -56,10 +64,10 @@ const RESOURCES = [
   'view.html',
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', function (event) {
   console.log('install');
 
-  return event.waitUntil(caches.open('stand').then((cache) => {
+  return event.waitUntil(caches.open('stand').then(function (cache) {
     return cache.addAll(RESOURCES);
   }));
 });
