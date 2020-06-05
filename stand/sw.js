@@ -1,5 +1,4 @@
 const RESOURCES = [
-  'favicon.png',
   'images/02_01.jpg',
   'images/05_01.jpg',
   'images/07_01.jpg',
@@ -31,23 +30,12 @@ const RESOURCES = [
   'images/48_02.jpg',
   'images/49_01.jpg',
   'images/54_01.jpg',
-  'images/icons/icon-128x128.png',
-  'images/icons/icon-144x144.png',
-  'images/icons/icon-152x152.png',
-  'images/icons/icon-192x192.png',
-  'images/icons/icon-384x384.png',
-  'images/icons/icon-512x512.png',
-  'images/icons/icon-72x72.png',
-  'images/icons/icon-96x96.png',
-  'index.html',
   'jsm/controls/TrackballControls.js',
   'jsm/curves/NURBSCurve.js',
   'jsm/curves/NURBSUtils.js',
   'jsm/libs/inflate.module.js',
   'jsm/loaders/FBXLoader.js',
   'jsm/three.module.js',
-  'main.dart.js',
-  'manifest.json',
   'material-components-web.min.js',
   'models/02.fbx',
   'models/05.fbx',
@@ -80,14 +68,12 @@ const RESOURCES = [
   'models/48.fbx',
   'models/49.fbx',
   'models/54.fbx',
-  'styles.css',
-  'view.html',
 ];
 
 self.addEventListener('install', function (event) {
   console.info('sw.js: install');
 
-  return event.waitUntil(caches.open('stand@2').then(function (cache) {
+  return event.waitUntil(caches.open('stand@3').then(function (cache) {
     return cache.addAll(RESOURCES);
   }));
 });
@@ -111,7 +97,7 @@ self.addEventListener('fetch', function (event) {
 
       let responseToCache = response.clone();
 
-      caches.open('stand@2').then(function (cache) {
+      caches.open('stand@3').then(function (cache) {
         cache.put(event.request, responseToCache);
       });
 
