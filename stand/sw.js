@@ -36,7 +36,7 @@ const RESOURCES = [
   'jsm/libs/inflate.module.js',
   'jsm/loaders/FBXLoader.js',
   'jsm/three.module.js',
-  'material-components-web.min.js',
+  'packages/mdc_web/material-components-web.min.js',
   'models/02.fbx',
   'models/05.fbx',
   'models/07.fbx',
