@@ -19,3 +19,7 @@ html, body {
   min-width: 800px;
   padding: 0px;
 }
+
+body {
+  overflow: hidden;
+}

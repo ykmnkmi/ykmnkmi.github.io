@@ -66,10 +66,6 @@ App.prototype = {
       });
 
       scope.scene.add(model);
-
-      let box = new THREE.Box3().setFromObject(model);
-      console.log(box);
-
       scope.controls.reset();
     };
 
