@@ -1,4 +1,6 @@
 const RESOURCES = [
+  'images/bg.jpg',
+  'images/bg2.jpg',
   'images/models/02.png',
   'images/models/05.png',
   'images/models/07.png',
