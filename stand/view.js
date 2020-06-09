@@ -66,7 +66,6 @@ App.prototype = {
       });
 
       scope.scene.add(model);
-      scope.controls.reset();
     };
 
     const loader = new FBXLoader();
@@ -129,6 +128,7 @@ let hashChange = function () {
   if (hash && hash.length > 1) {
     let file = hash.substring(1);
     app.setContent(file);
+    app.resetCamera();
   }
 };
 
