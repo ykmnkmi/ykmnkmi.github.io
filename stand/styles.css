@@ -1,11 +1,6 @@
-:root {
-  --primary-color: #212121;
-  --secondary-color: #e1e1e1;
-}
-
 @font-face {
   font-family: 'AvanteBsNrLight';
-  src: url('AvanteBsNrLight.ttf')  format('truetype'); /* Legacy iOS */
+  src: url('AvanteBsNrLight.ttf')  format('truetype');
 }
 
 html {
@@ -26,7 +21,7 @@ body {
   width: 100%;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 799px) {
   html {
     font-size: 12px;
   }
