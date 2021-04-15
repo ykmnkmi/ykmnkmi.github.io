@@ -1,11 +1,11 @@
 {
-    "name": "Genshin Impact Lyre Player",
-    "short_name": "Genshin Impact Lyre Player",
+    "name": "Genshin Impact Flute Player",
+    "short_name": "Genshin Impact Flute Player",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#1D1C23",
     "theme_color": "#D4BD91",
-    "description": "Genshin Impact Lyre Player.",
+    "description": "Genshin Impact Flute Player.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
